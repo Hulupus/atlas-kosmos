@@ -18,15 +18,20 @@ const mainNavItems: NavItem[] = [
 
 const deviceNavItems: NavItem[] = [
     {
-        title: 'Prometheus',
-        href: route('dashboard'),
-        icon: Sprout,
+      title: 'Alle Geräte',
+      href: route('devices.index'),
+      icon: LayoutGrid,
     },
     {
         title: 'Epimetheus',
-        href: '',
+        href: route('devices.epimetheus'),
         icon: Sprout,
-    }
+    },
+    {
+        title: 'Prometheus',
+        href: route('devices.prometheus'),
+        icon: Sprout,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -62,7 +67,7 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarContent>
-            <NavMain :items="deviceNavItems" label="Devices"/>
+            <NavMain :items="deviceNavItems" label="Geräte"/>
         </SidebarContent>
 
         <SidebarFooter>
