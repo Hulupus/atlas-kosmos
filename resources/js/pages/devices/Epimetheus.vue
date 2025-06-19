@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/vue3';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,17 +13,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '',
     },
 ];
-
 </script>
 
 <template>
-    <Head title="Epimetheus"/>
+    <Head title="Epimetheus" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-
-    </AppLayout>
+    <AppLayout :breadcrumbs="breadcrumbs"> </AppLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

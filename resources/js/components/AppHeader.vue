@@ -42,7 +42,7 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: 'login',
         icon: LayoutGrid,
-    }
+    },
 ];
 
 const rightNavItems: NavItem[] = [

@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return Inertia::render('Home');
+})->middleware(['auth', 'verified'])->name('home');
 
 require __DIR__.'/devices.php';
 require __DIR__.'/settings.php';

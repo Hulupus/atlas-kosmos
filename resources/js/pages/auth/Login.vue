@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 //import TextLink from '@/components/TextLink.vue';
-import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle, School } from 'lucide-vue-next';
@@ -82,15 +82,11 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="relative flex justify-center items-center py-6">
+        <div class="relative flex items-center justify-center py-6">
             <Separator class="w-full bg-gray-700" />
-            <span class="absolute px-4 bg-background text-gray-400 text-sm">
-                Oder Anmelden mit
-            </span>
+            <span class="absolute bg-background px-4 text-sm text-gray-400"> Oder Anmelden mit </span>
         </div>
 
-        <Button>
-            <School /> IServ-E-Mail-Adresse
-        </Button>
+        <Button> <School /> IServ-E-Mail-Adresse </Button>
     </AuthBase>
 </template>
