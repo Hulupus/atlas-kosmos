@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('measurements', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('device_id')->constrained()->onDelete('cascade');
+
+            $table->string('metric_name');
+            $table->decimal('value', 10, 4);
+            $table->string('unit')->nullable();
+
+            $table->timestamp('measured_at')->nullable();
+
+            $table->text('notes')->nullable();
+
             $table->timestamps();
         });
     }
