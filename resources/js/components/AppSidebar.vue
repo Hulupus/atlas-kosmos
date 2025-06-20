@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, Home, LayoutGrid, Sprout } from 'lucide-vue-next';
+import { BookOpen, ChartLine, Database, Folder, Home, LayoutGrid, Sprout } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -31,6 +31,19 @@ const deviceNavItems: NavItem[] = [
         title: 'Prometheus',
         href: route('devices.prometheus'),
         icon: Sprout,
+    },
+];
+
+const dataNavItems: NavItem[] = [
+    {
+        title: 'Messwerte',
+        href: route('devices.index'),
+        icon: Database,
+    },
+    {
+        title: 'Diagramme',
+        href: route('devices.epimetheus'),
+        icon: ChartLine,
     },
 ];
 
@@ -62,10 +75,12 @@ const footerNavItems: NavItem[] = [
             </SidebarMenu>
         </SidebarHeader>
 
-        <SidebarContent>
+        <SidebarContent class="gap-5">
             <NavMain :items="mainNavItems" label="Platform" />
 
             <NavMain :items="deviceNavItems" label="Geräte" />
+
+            <NavMain label="Datenanalyse & Visualisierung" :items="dataNavItems" />
         </SidebarContent>
 
         <SidebarFooter>
