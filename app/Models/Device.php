@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Device extends Model
@@ -20,9 +21,20 @@ class Device extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'description',
     ];
+
+    /**
+     * Get the user that owns the device.
+     *
+     * This defines a many-to-one relationship: many Devices belong to one User.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Get the measurements associated with the device.
