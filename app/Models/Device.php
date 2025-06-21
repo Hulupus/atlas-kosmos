@@ -48,8 +48,8 @@ class Device extends Model
         'location',
         'description',
         'webclient_start_url',
-        'device_group_id'
-        // 'user_id' is intentionally not fillable here based on the claiming logic.
+        'device_group_id',
+        'user_id',
         // 'last_callback_at' is updated programmatically.
     ];
 

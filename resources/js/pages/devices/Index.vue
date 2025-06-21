@@ -6,13 +6,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import AppLayout from '@/layouts/AppLayout.vue';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Bell, Database, Gauge, Rocket, BadgeInfo } from 'lucide-vue-next';
-import { defineProps } from 'vue';
 import { DeviceGroup } from '@/types/DeviceGroup';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { BadgeInfo, Bell, Database, Gauge, KeyRound, Rocket } from 'lucide-vue-next';
+import { defineProps } from 'vue';
 
 const props = defineProps<{
-    deviceGroups: DeviceGroup[]
+    deviceGroups: DeviceGroup[];
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -42,7 +42,6 @@ const page = usePage();
 const successMessage = page.props.flash.success || '';
 const deviceToken = page.props.flash.deviceToken || null;
 const deviceName = page.props.flash.deviceName || '';
-
 </script>
 
 <template>
@@ -77,9 +76,14 @@ const deviceName = page.props.flash.deviceName || '';
                                 <CardTitle>{{ device.name }}</CardTitle>
                                 <CardDescription>You have 3 unread messages.</CardDescription>
                             </div>
-                            <Button variant="outline" size="icon">
-                                <Bell class="h-4 w-4" />
-                            </Button>
+                            <div >
+                                <Button class="mr-3" variant="outline" size="icon">
+                                    <KeyRound class="h-4 w-4" />
+                                </Button>
+                                <Button variant="outline" size="icon">
+                                    <Bell class="h-4 w-4" />
+                                </Button>
+                            </div>
                         </CardHeader>
                         <CardContent class="grid gap-4">
                             <div>

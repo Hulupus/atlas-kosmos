@@ -38,7 +38,9 @@ class DeviceController extends Controller
 
         // Assign the user_id to the device immediately upon creation via this UI.
         // This makes the device owned by the creating user from the start.
-        $deviceData['user_id'] = $user->id;
+        if ($request->boolean('generate_token')) {
+            $deviceData['user_id'] = $user->getAuthIdentifier();
+        }
 
         // Create the device in the database.
         $device = Device::create($deviceData);
@@ -88,10 +90,10 @@ class DeviceController extends Controller
         if ($device->user_id === null) {
             // Device is currently unassigned.
             // Associate this device with the authenticated user (claiming it).
-            $device->user_id = $user->id;
+            $device->user_id = $user->getAuthIdentifier();
             $device->save();
             $message = 'Device successfully associated and API Token generated!';
-        } elseif ($device->user_id !== $user->id) {
+        } elseif ($device->user_id !== $user->getAuthIdentifier()) {
             // Device is assigned to a different user.
             // This prevents a user from claiming a device already owned by someone else.
             abort(403, 'Unauthorized: This device is already assigned to another account.');

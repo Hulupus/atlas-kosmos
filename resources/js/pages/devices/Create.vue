@@ -9,12 +9,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import { Head,Link, useForm } from '@inertiajs/vue3';
-import { defineProps } from 'vue';
 import { DeviceGroup } from '@/types/DeviceGroup';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 
 const props = defineProps<{
-    deviceGroups: DeviceGroup[]
+    deviceGroups: DeviceGroup[];
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -56,7 +56,6 @@ const handleSubmit = () => {
     <Head title="Gerät erstellen" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-
         <div class="w-full px-4 py-6">
             <Heading title="Füge ein neues Gerät hinzu" description="Fülle die Felder unten aus, um ein neues Gerät zu registrieren" />
 
