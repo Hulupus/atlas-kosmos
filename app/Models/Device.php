@@ -47,7 +47,6 @@ class Device extends Model
         'name',
         'location',
         'description',
-        'device_group',
         'webclient_start_url',
         // 'user_id' is intentionally not fillable here based on the claiming logic.
         // 'last_callback_at' is updated programmatically.
@@ -69,6 +68,16 @@ class Device extends Model
      * The relationship can be null if user_id is null.
      */
     public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the group that owns the device.
+     *
+     * This defines a many-to-one relationship: many Devices belong to one Group.
+     */
+    public function device_group(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

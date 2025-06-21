@@ -35,7 +35,7 @@ class StoreDeviceRequest extends FormRequest
             ],
             'location' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'device_group' => ['required', 'string', 'max:255'],
+            'device_group_id' => ['required', 'integer', 'exists:device_groups,id'],
             'webclient_start_url' => ['nullable', 'url', 'max:2048'],
             'generate_token' => ['nullable', 'boolean'],
         ];
