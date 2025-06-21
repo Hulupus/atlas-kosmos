@@ -1,22 +1,14 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,8 +34,8 @@ const resetForm = () => {
     form.reset('device_group');
     form.reset('location');
     form.reset('description');
-    form.reset('webclient_start_url')
-}
+    form.reset('webclient_start_url');
+};
 
 const handleSubmit = () => {
     form.post(route('devices.store'), {
@@ -80,7 +72,9 @@ const handleSubmit = () => {
 
                 <!-- Gerätegruppe (Shadcn-Vue Select) -->
                 <div class="grid gap-2">
-                    <Label for="device_group" :class="{ 'text-red-600': form.errors.device_group }">Gerätegruppe <span class="text-red-500">*</span></Label>
+                    <Label for="device_group" :class="{ 'text-red-600': form.errors.device_group }"
+                        >Gerätegruppe <span class="text-red-500">*</span></Label
+                    >
                     <Select v-model="form.device_group">
                         <SelectTrigger class="w-full" :class="{ 'border-red-500': form.errors.device_group }">
                             <SelectValue placeholder="Wähle eine Gruppe aus" />
@@ -127,7 +121,9 @@ const handleSubmit = () => {
 
                 <!-- Webclient Start-URL (optional) -->
                 <div>
-                    <Label for="webclient_start_url" :class="{ 'text-red-600': form.errors.webclient_start_url }">Webclient Start-URL (optional)</Label>
+                    <Label for="webclient_start_url" :class="{ 'text-red-600': form.errors.webclient_start_url }"
+                        >Webclient Start-URL (optional)</Label
+                    >
                     <Input
                         id="webclient_start_url"
                         v-model="form.webclient_start_url"
@@ -141,20 +137,10 @@ const handleSubmit = () => {
 
                 <!-- Formularaktionen -->
                 <div class="flex justify-end space-x-3 pt-4">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        @click="resetForm"
-                        class="inline-flex items-center px-4 py-2"
-                        :disabled="form.processing"
-                    >
+                    <Button type="button" variant="outline" @click="resetForm" class="inline-flex items-center px-4 py-2" :disabled="form.processing">
                         Abbrechen
                     </Button>
-                    <Button
-                        type="submit"
-                        class="inline-flex items-center px-4 py-2"
-                        :disabled="form.processing"
-                    >
+                    <Button type="submit" class="inline-flex items-center px-4 py-2" :disabled="form.processing">
                         <span v-if="form.processing">Gerät wird hinzugefügt...</span>
                         <span v-else>Gerät hinzufügen</span>
                     </Button>
