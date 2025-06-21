@@ -51,7 +51,7 @@ class StoreDeviceRequest extends FormRequest
         return [
             'name.required' => 'The device name is required.',
             'name.unique' => 'This device name is already taken. Please choose a different, globally unique name.',
-            'device_group.required' => 'The device group is required.',
+            'device_group_id.required' => 'The device group is required.',
             'webclient_start_url.url' => 'The webclient start URL must be a valid URL format.',
         ];
     }

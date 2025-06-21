@@ -9,7 +9,13 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head,Link, useForm } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
+import { DeviceGroup } from '@/types/DeviceGroup';
+
+const props = defineProps<{
+    deviceGroups: DeviceGroup[]
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const form = useForm({
     name: '',
-    device_group: '',
+    device_group_id: '',
     location: '',
     description: '',
     webclient_start_url: '',
@@ -33,7 +39,7 @@ const form = useForm({
 
 const resetForm = () => {
     form.reset('name');
-    form.reset('device_group');
+    form.reset('device_group_id');
     form.reset('location');
     form.reset('description');
     form.reset('webclient_start_url');
@@ -50,6 +56,7 @@ const handleSubmit = () => {
     <Head title="Gerät erstellen" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+
         <div class="w-full px-4 py-6">
             <Heading title="Füge ein neues Gerät hinzu" description="Fülle die Felder unten aus, um ein neues Gerät zu registrieren" />
 
@@ -73,25 +80,22 @@ const handleSubmit = () => {
 
                 <!-- Gerätegruppe (Shadcn-Vue Select) -->
                 <div class="grid gap-2">
-                    <Label for="device_group" :class="{ 'text-red-600': form.errors.device_group }"
+                    <Label for="device_group" :class="{ 'text-red-600': form.errors.device_group_id }"
                         >Gerätegruppe <span class="text-red-500">*</span></Label
                     >
-                    <Select v-model="form.device_group">
-                        <SelectTrigger class="w-full" :class="{ 'border-red-500': form.errors.device_group }">
+                    <Select v-model="form.device_group_id">
+                        <SelectTrigger class="w-full" :class="{ 'border-red-500': form.errors.device_group_id }">
                             <SelectValue placeholder="Wähle eine Gruppe aus" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Gruppen</SelectLabel>
-                                <SelectItem value="gnosis"> Gnosis </SelectItem>
-                                <SelectItem value="apollo"> Apollo </SelectItem>
-                                <SelectItem value="hermes"> Hermes </SelectItem>
-                                <SelectItem value="other"> Andere </SelectItem>
+                                <SelectItem v-for="(group, index) in deviceGroups" :value="group.id" :key="index"> {{ group.name }} </SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                     <p class="mt-1 text-xs text-gray-500">Weisen Sie Ihr Gerät einer logischen Gruppe zu.</p>
-                    <InputError :message="form.errors.device_group" />
+                    <InputError :message="form.errors.device_group_id" />
                 </div>
 
                 <!-- Standort (optional) -->
@@ -136,6 +140,22 @@ const handleSubmit = () => {
                     <InputError :message="form.errors.webclient_start_url" />
                 </div>
 
+                <!-- TODO: Add own value -->
+                <div>
+                    <div class="items-top flex gap-x-2">
+                        <Checkbox id="generateToken" v-model:model-value="form.generate_token" />
+                        <div class="grid gap-1.5 leading-none">
+                            <label
+                                for="generateToken"
+                                class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Besitzt ein eigenes Dashboard
+                            </label>
+                            <p class="text-sm text-muted-foreground">Du gibst damit an, dass das Gerät ein Dashboard besitzt</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <div class="items-top flex gap-x-2">
                         <Checkbox id="generateToken" v-model:model-value="form.generate_token" />
@@ -153,8 +173,13 @@ const handleSubmit = () => {
 
                 <!-- Formularaktionen -->
                 <div class="flex justify-end space-x-3 pt-4">
+                    <Link :href="route('devices.index')">
+                        <Button type="button" variant="outline" class="inline-flex items-center px-4 py-2" :disabled="form.processing">
+                            Abbrechen
+                        </Button>
+                    </Link>
                     <Button type="button" variant="outline" @click="resetForm" class="inline-flex items-center px-4 py-2" :disabled="form.processing">
-                        Abbrechen
+                        Zurücksetzen
                     </Button>
                     <Button type="submit" class="inline-flex items-center px-4 py-2" :disabled="form.processing">
                         <span v-if="form.processing">Gerät wird hinzugefügt...</span>

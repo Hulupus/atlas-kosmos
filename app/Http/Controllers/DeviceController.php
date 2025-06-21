@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDeviceRequest;
 use App\Models\Device;
+use App\Models\DeviceGroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,11 +13,20 @@ use Inertia\Inertia;
 class DeviceController extends Controller
 {
     public function index() {
-        return Inertia::render('devices/Index');
+        $deviceGroupsWithDevices = DeviceGroup::has('devices')->with('devices')->get();
+
+        return Inertia::render('devices/Index', [
+            'deviceGroups' => $deviceGroupsWithDevices
+        ]);
     }
 
     public function create() {
-        return Inertia::render('devices/Create');
+        $deviceGroups = DeviceGroup::all();
+
+        return Inertia::render('devices/Create', [
+            'deviceGroups' => $deviceGroups
+
+        ]);
     }
 
     public function store(StoreDeviceRequest $request) {

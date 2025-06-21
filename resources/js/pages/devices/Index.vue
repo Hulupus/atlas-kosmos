@@ -8,6 +8,12 @@ import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Bell, Database, Gauge, Rocket, BadgeInfo } from 'lucide-vue-next';
+import { defineProps } from 'vue';
+import { DeviceGroup } from '@/types/DeviceGroup';
+
+const props = defineProps<{
+    deviceGroups: DeviceGroup[]
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,29 +34,6 @@ const notifications = [
     {
         title: 'Your subscription is expiring soon!',
         description: '2 hours ago',
-    },
-];
-
-const deviceGroups = [
-    {
-        title: 'Gnosis',
-        description:
-            'Eine Sensorik-Gruppe für Aquaponiksysteme zur Überwachung kritischer Wasserparameter und Sicherstellung optimaler Bedingungen für Fische und Pflanzen',
-        devices: [
-            {
-                name: 'Epimetheus',
-                href: route('devices.epimetheus'),
-            },
-            {
-                name: 'Prometheus',
-                href: route('devices.prometheus'),
-            },
-        ],
-    },
-    {
-        title: 'Lufticus',
-        description: '',
-        devices: [],
     },
 ];
 
@@ -83,8 +66,9 @@ const deviceName = page.props.flash.deviceName || '';
                     {{ successMessage }} <span v-if="deviceToken"> Dein Token ist: {{ deviceToken }}</span>
                 </AlertDescription>
             </Alert>
-            <div v-for="(group, index) in deviceGroups" :key="index" class="pb-4">
-                <Heading :title="group.title" :description="group.description" />
+
+            <div v-for="(group, index) in props.deviceGroups" :key="index" class="pb-4">
+                <Heading :title="group.name" :description="group.description ? group.description : ''" />
 
                 <div class="flex flex-wrap gap-3">
                     <Card :class="cn('w-[380px]', $attrs.class ?? '')" v-for="(device, index) in group.devices" :key="index">
