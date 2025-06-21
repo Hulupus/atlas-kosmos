@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
-
+import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Messwerte"/>
+    <Head title="Messwerte" />
 
-    <AppLayout>
-
-    </AppLayout>
+    <AppLayout> </AppLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
