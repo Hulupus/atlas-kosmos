@@ -31,11 +31,13 @@ class StoreDeviceRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                // Ensure the device name is globally unique across all devices.
                 'unique:devices,name',
             ],
             'location' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'device_group' => ['required', 'string', 'max:255'],
+            'webclient_start_url' => ['nullable', 'url', 'max:2048'],
+            'generate_token' => ['nullable', 'boolean'],
         ];
     }
 
@@ -49,6 +51,8 @@ class StoreDeviceRequest extends FormRequest
         return [
             'name.required' => 'The device name is required.',
             'name.unique' => 'This device name is already taken. Please choose a different, globally unique name.',
+            'device_group.required' => 'The device group is required.',
+            'webclient_start_url.url' => 'The webclient start URL must be a valid URL format.',
         ];
     }
 }

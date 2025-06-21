@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,10 +14,15 @@ return new class extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
 
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('location')->nullable();
             $table->text('description')->nullable();
+
+            $table->string('device_group')->default('Default');
+            $table->string('webclient_start_url')->nullable();
+            $table->timestamp('last_callback_at')->nullable();
 
             $table->timestamps();
         });

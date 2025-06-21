@@ -2,6 +2,7 @@
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,6 +28,7 @@ const form = useForm({
     location: '',
     description: '',
     webclient_start_url: '',
+    generate_token: false,
 });
 
 const resetForm = () => {
@@ -59,7 +61,6 @@ const handleSubmit = () => {
                         id="name"
                         v-model="form.name"
                         type="text"
-                        required
                         autofocus
                         :tabindex="1"
                         autocomplete="name"
@@ -133,6 +134,21 @@ const handleSubmit = () => {
                     />
                     <p class="mt-1 text-xs text-gray-500">Geben Sie eine URL für den Zugriff auf die Webclient-Oberfläche des Geräts an.</p>
                     <InputError :message="form.errors.webclient_start_url" />
+                </div>
+
+                <div>
+                    <div class="items-top flex gap-x-2">
+                        <Checkbox id="generateToken" v-model:model-value="form.generate_token" />
+                        <div class="grid gap-1.5 leading-none">
+                            <label
+                                for="generateToken"
+                                class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Erstelle einen API-Token für das Gerät
+                            </label>
+                            <p class="text-sm text-muted-foreground">Du forderst bei der Erstellung sofort einen API-Token an</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Formularaktionen -->

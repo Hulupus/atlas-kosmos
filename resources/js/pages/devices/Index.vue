@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import AppLayout from '@/layouts/AppLayout.vue';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
-import { Bell, Database, Gauge, Rocket } from 'lucide-vue-next';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Bell, Database, Gauge, Rocket, BadgeInfo } from 'lucide-vue-next';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,6 +53,13 @@ const deviceGroups = [
         devices: [],
     },
 ];
+
+const page = usePage();
+
+const successMessage = page.props.flash.success || '';
+const deviceToken = page.props.flash.deviceToken || null;
+const deviceName = page.props.flash.deviceName || '';
+
 </script>
 
 <template>
@@ -61,14 +68,21 @@ const deviceGroups = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="w-full px-4 py-6">
             <Link :href="route('devices.create')">
-                <Alert class="mb-8">
-                    <Rocket class="h-4 w-4" />
+                <Alert class="mb-6">
+                    <BadgeInfo class="h-4 w-4" />
                     <AlertTitle>Mitgestalten!</AlertTitle>
                     <AlertDescription class="flex">
                         Fehlt dir ein Gerät? Dann melde <span class="font-bold">hier</span> ein neues Gerät an
                     </AlertDescription>
                 </Alert>
             </Link>
+            <Alert class="mb-6" variant="destructive" v-if="successMessage">
+                <Rocket class="h-4 w-4" />
+                <AlertTitle> {{ deviceName }} erfolgreich erstellt</AlertTitle>
+                <AlertDescription class="flex">
+                    {{ successMessage }} <span v-if="deviceToken"> Dein Token ist: {{ deviceToken }}</span>
+                </AlertDescription>
+            </Alert>
             <div v-for="(group, index) in deviceGroups" :key="index" class="pb-4">
                 <Heading :title="group.title" :description="group.description" />
 
