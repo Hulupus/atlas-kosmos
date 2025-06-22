@@ -19,6 +19,9 @@ Route::prefix('devices')->group(function () {
             Route::post('/', [DeviceController::class, 'store'])
                 ->name('store');
 
+            Route::get('/{device}/edit', [DeviceController::class, 'edit'])
+                ->name('edit');
+
             Route::get('/epimetheus', function () {
                 return Inertia::render('devices/Epimetheus');
             })->name('epimetheus');

@@ -7,7 +7,9 @@ export interface Device {
     id: number;
     name: string;
     location: string | null;
+    device_group_id: number;
     description: string | null;
+    webclient_start_url: string;
     has_dashboard: boolean;
     // Add other essential device properties if needed for client-side use
     // For example:

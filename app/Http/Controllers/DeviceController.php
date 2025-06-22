@@ -20,7 +20,8 @@ class DeviceController extends Controller
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         $deviceGroups = DeviceGroup::all();
 
         return Inertia::render('devices/Create', [
@@ -70,6 +71,36 @@ class DeviceController extends Controller
             'deviceToken' => $deviceToken, // Will be null if the checkbox was unchecked
             'deviceName' => $device->name,
         ]);
+    }
+
+    public function edit($id) {
+        $deviceGroups = DeviceGroup::all();
+        $device = Device::find($id);
+
+        return Inertia::render('devices/Edit', [
+            'device' => $device,
+            'deviceGroups' => $deviceGroups,
+        ]);
+    }
+
+    // TODO IMPLEMENT THIS
+    public function update(StoreDeviceRequest $request, Device $device)
+    {
+        // Authorize if the user can update this device (e.g., must be the owner)
+        // if (Auth::id() !== $device->user_id) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+
+        // The validated data from the StoreDeviceRequest
+        // The `except('generate_token')` is important as this field is not
+        // part of the device model's fillable attributes.
+        $deviceData = $request->validated();//->except('generate_token');
+
+        // Update the device with the validated data
+        $device->update($deviceData);
+
+        // Redirect back to the devices index page with a success message
+        return redirect()->route('devices.index')->with('success', 'Device updated successfully!');
     }
 
     /**

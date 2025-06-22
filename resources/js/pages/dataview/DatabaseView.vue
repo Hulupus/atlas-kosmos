@@ -14,8 +14,9 @@ import { Head, router, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { AlertCircle } from 'lucide-vue-next';
+import { AlertCircle, Download } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
+import { Button } from '@/components/ui/button';
 
 dayjs.extend(localizedFormat);
 dayjs.locale('de');
@@ -70,6 +71,63 @@ const displaySelectedDeviceName = computed(() => {
 
     return props.selectedDevice ? props.selectedDevice.name : 'Wähle ein Gerät aus';
 });
+
+const exportMeasurementsToCsv = () => {
+    if (props.measurements.length === 0) {
+        alert('No measurements to export for the selected device.');
+        return;
+    }
+
+    // Define CSV headers
+    const headers = [
+        'Device Name',
+        'Metric Name',
+        'Value',
+        'Unit',
+        'Measured At',
+        'Notes'
+    ];
+
+    // Map measurement data to CSV rows
+    const rows = props.measurements.map(m => [
+        `"${props.selectedDevice.name.replace(/"/g, '""') || 'N/A'}"`, // Handle quotes and ensure device name is available
+        `"${m.metric_name.replace(/"/g, '""')}"`,
+        m.value,
+        `"${(m.unit || 'N/A').replace(/"/g, '""')}"`,
+        `"${m.measured_at ? dayjs(m.measured_at).format('YYYY-MM-DD HH:mm:ss') : 'N/A'}"`,
+        `"${(m.notes || 'N/A').replace(/"/g, '""')}"`
+    ]);
+
+    // Combine headers and rows into CSV content
+    const csvContent = [
+        headers.join(','), // Join headers with commas
+        ...rows.map(e => e.join(',')) // Join each row's elements with commas
+    ].join('\n'); // Join all lines with newlines
+
+    // Create a Blob and download link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+
+    // Set filename
+    const fileName = props.selectedDevice?.name
+        ? `measurements_${props.selectedDevice.name}_${dayjs().format('YYYYMMDD_HHmmss')}.csv`
+        : `measurements_${dayjs().format('YYYYMMDD_HHmmss')}.csv`;
+
+    if (link.download !== undefined) { // Feature detection for download attribute
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', fileName);
+        link.style.visibility = 'hidden'; // Hide the link
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link); // Clean up
+        URL.revokeObjectURL(url); // Free up the URL object
+    } else {
+        // Fallback for browsers that don't support download attribute
+        window.open(`data:text/csv;charset=utf-8,${encodeURIComponent(csvContent)}`);
+    }
+};
+
 </script>
 
 <template>
@@ -108,6 +166,10 @@ const displaySelectedDeviceName = computed(() => {
                             </SelectGroup>
                         </SelectContent>
                     </Select>
+                    <Button @click="exportMeasurementsToCsv" :disabled="props.measurements.length === 0">
+                        <Download />
+                        Export CSV
+                    </Button>
                 </div>
             </div>
 
