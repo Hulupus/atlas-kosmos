@@ -1,11 +1,32 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
+import {
+    CategoryScale,
+    Chart as ChartJS,
+    Legend, // <--- Make sure this is imported
+    LinearScale,
+    LineElement, // <--- Make sure this is imported (for Y-axis)
+    PointElement,
+    Title,
+    Tooltip,
+} from 'chart.js';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
+
+ChartJS.register(
+    Title,
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    CategoryScale, // <--- And registered here
+    LinearScale, // <--- And registered here
+    PointElement,
+);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

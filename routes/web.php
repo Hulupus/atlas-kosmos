@@ -16,7 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Home');
     })->name('home');
 
-    Route::get('/measurements', [DataviewController::class, 'index']);
+    Route::get('/measurements', [DataviewController::class, 'databaseView'])
+        ->name('measurements');
 });
 
 

@@ -37,7 +37,7 @@ const deviceNavItems: NavItem[] = [
 const dataNavItems: NavItem[] = [
     {
         title: 'Messwerte',
-        href: route('devices.index'),
+        href: route('measurements'),
         icon: Database,
     },
     {

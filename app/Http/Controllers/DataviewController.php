@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\DeviceGroup;
 use App\Models\Measurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,9 @@ class DataviewController extends Controller
 
     // TODO PROGRAM IN SAFETY SO THAT THIS SHIT DOESNT CRASH
     // TODO IF device id is not valid, Reroute them to url without please
-    public function index(Request $request) {
+    public function databaseView(Request $request) {
+        $deviceGroupsWithDevices = DeviceGroup::has('devices')->with('devices')->get();
+
         $user = Auth::user();
         $selectedDeviceId = null;
         $selectedDeviceName = null;
@@ -34,7 +37,7 @@ class DataviewController extends Controller
         }
 
 
-
+        $selectedMeasurements = collect();
         if ($selectedDevice) {
             $selectedMeasurements = $selectedDevice->measurements;
         }
@@ -42,11 +45,12 @@ class DataviewController extends Controller
         // Fetch all devices owned by the user (for the dropdown filter)
         $userDevices = $user->devices()->get(['id', 'name']);
 
-
+        // TODO Fix reroute when id not fits; implement errors
         // Always render the DataView page, letting the frontend handle the empty state
         return Inertia::render('dataview/DatabaseView', [
+            'deviceGroups' => $deviceGroupsWithDevices,
             'measurements' => $selectedMeasurements, // Will be empty if no device selected or found
-            'userDevices' => $userDevices,
+            'selectedDevice' => $selectedDevice,
             'selectedDeviceId' => $selectedDeviceId, // Will be null if no device selected/found
             'selectedDeviceName' => $selectedDeviceName, // Will be null if no device selected/found
             'selectedDeviceDetails' => $selectedDevice ? $selectedDevice->only('id', 'name', 'location', 'device_group_id') : null,
