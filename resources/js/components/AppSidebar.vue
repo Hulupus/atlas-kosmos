@@ -76,7 +76,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent class="gap-5">
-            <NavMain :items="mainNavItems" label="Platform" />
+            <NavMain :items="mainNavItems" label="Übersicht" />
 
             <NavMain :items="deviceNavItems" label="Geräte" />
 

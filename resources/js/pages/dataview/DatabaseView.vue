@@ -112,7 +112,7 @@ const displaySelectedDeviceName = computed(() => {
             </div>
 
             <div v-if="!selectedDevice" class="grid w-3/5 place-items-center pt-10">
-                <div class="gap-5 rounded text-center">
+                <div class="gap-5 rounded text-center space-y-2">
                     <AppLogoIcon class="size-72 fill-muted" />
                     <span class="font-bold text-muted"> Kein Gerät ausgewählt </span>
                 </div>
