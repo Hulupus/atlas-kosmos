@@ -76,7 +76,7 @@ const deviceName = page.props.flash.deviceName || '';
                                 <CardTitle>{{ device.name }}</CardTitle>
                                 <CardDescription>You have 3 unread messages.</CardDescription>
                             </div>
-                            <div >
+                            <div>
                                 <Button class="mr-3" variant="outline" size="icon">
                                     <KeyRound class="h-4 w-4" />
                                 </Button>

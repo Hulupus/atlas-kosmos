@@ -2,65 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
+use App\Models\Measurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DataviewController extends Controller
 {
+
+    // TODO PROGRAM IN SAFETY SO THAT THIS SHIT DOESNT CRASH
+    // TODO IF device id is not valid, Reroute them to url without please
     public function index(Request $request) {
         $user = Auth::user();
         $selectedDeviceId = null;
         $selectedDeviceName = null;
         $selectedDevice = null; // Initialize selectedDevice
 
+        $isValidSelectedDevice = true;
+
         $deviceIdParam = $request->query('device_id');
         $deviceNameParam = $request->query('device_name');
-
-        // TODO FIX THIS THING PLEAAAAAAAAAS
-        if ($deviceIdParam == null && $deviceNameParam == null) {
-            return Inertia::render('dataview/Index');
-        }
-        dd($deviceIdParam);
 
         // Determine the selected device ID based on either ID or name
         if ($deviceIdParam) {
             $selectedDeviceId = intval($deviceIdParam);
+            $selectedDevice = Device::find($deviceIdParam);
         } elseif ($deviceNameParam) {
-            $deviceByName = $user->devices()->where('name', $deviceNameParam)->first(['id', 'name']);
-            if ($deviceByName) {
-                $selectedDeviceId = $deviceByName->id;
-                $selectedDeviceName = $deviceByName->name;
-            }
+            $selectedDeviceName = $deviceNameParam;
+            $selectedDevice = Device::query()->where('name', $deviceNameParam)->first();
+        }
+
+
+
+        if ($selectedDevice) {
+            $selectedMeasurements = $selectedDevice->measurements;
         }
 
         // Fetch all devices owned by the user (for the dropdown filter)
         $userDevices = $user->devices()->get(['id', 'name']);
 
-        $measurements = collect(); // Initialize measurements as an empty collection
-
-        // Check if a device was successfully identified and is owned by the user
-        if ($selectedDeviceId) {
-            $selectedDevice = $user->devices()->find($selectedDeviceId);
-
-            if ($selectedDevice) {
-                // If a valid and owned device is found, fetch its measurements
-                $measurements = Measurement::query()
-                    ->where('device_id', $selectedDevice->id)
-                    ->with(['device.deviceGroup'])
-                    ->orderBy('measured_at', 'desc')
-                    ->limit(50)
-                    ->get();
-
-                if (is_null($selectedDeviceName)) {
-                    $selectedDeviceName = $selectedDevice->name;
-                }
-            }
-        }
 
         // Always render the DataView page, letting the frontend handle the empty state
-        return Inertia::render('Measurements/DataView', [
-            'measurements' => $measurements, // Will be empty if no device selected or found
+        return Inertia::render('dataview/DatabaseView', [
+            'measurements' => $selectedMeasurements, // Will be empty if no device selected or found
             'userDevices' => $userDevices,
             'selectedDeviceId' => $selectedDeviceId, // Will be null if no device selected/found
             'selectedDeviceName' => $selectedDeviceName, // Will be null if no device selected/found
