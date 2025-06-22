@@ -38,6 +38,7 @@ class StoreDeviceRequest extends FormRequest
             'device_group_id' => ['required', 'integer', 'exists:device_groups,id'],
             'webclient_start_url' => ['nullable', 'url', 'max:2048'],
             'generate_token' => ['nullable', 'boolean'],
+            'has_dashboard' => ['nullable', 'boolean'],
         ];
     }
 

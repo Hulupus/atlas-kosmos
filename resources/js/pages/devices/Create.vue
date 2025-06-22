@@ -13,7 +13,7 @@ import { DeviceGroup } from '@/types/DeviceGroup';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 
-const props = defineProps<{
+defineProps<{
     deviceGroups: DeviceGroup[];
 }>();
 
@@ -35,6 +35,7 @@ const form = useForm({
     description: '',
     webclient_start_url: '',
     generate_token: false,
+    has_dashboard: false,
 });
 
 const resetForm = () => {
@@ -43,6 +44,8 @@ const resetForm = () => {
     form.reset('location');
     form.reset('description');
     form.reset('webclient_start_url');
+    form.reset('generate_token');
+    form.reset('has_dashboard');
 };
 
 const handleSubmit = () => {
@@ -139,13 +142,12 @@ const handleSubmit = () => {
                     <InputError :message="form.errors.webclient_start_url" />
                 </div>
 
-                <!-- TODO: Add own value -->
                 <div>
                     <div class="items-top flex gap-x-2">
-                        <Checkbox id="generateToken" v-model:model-value="form.generate_token" />
+                        <Checkbox id="has_dashboard" v-model:model-value="form.has_dashboard" />
                         <div class="grid gap-1.5 leading-none">
                             <label
-                                for="generateToken"
+                                for="has_dashboard"
                                 class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
                                 Besitzt ein eigenes Dashboard

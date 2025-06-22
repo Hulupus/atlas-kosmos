@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Heading from '@/components/Heading.vue';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -9,10 +10,11 @@ import type { BreadcrumbItem } from '@/types';
 import type { Device } from '@/types/Device';
 import { DeviceGroup } from '@/types/DeviceGroup';
 import { Measurement } from '@/types/Measurement';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import { AlertCircle } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
 dayjs.extend(localizedFormat);
@@ -24,6 +26,8 @@ const props = defineProps<{
     selectedDeviceId?: number;
     deviceGroups: DeviceGroup[];
 }>();
+
+const error = usePage().props.flash.error;
 
 const selectedDeviceForFilter = ref<string>(props.selectedDeviceId ? String(props.selectedDeviceId) : '');
 
@@ -73,6 +77,14 @@ const displaySelectedDeviceName = computed(() => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="w-full px-4 py-6">
+            <Alert v-if="error && !selectedDevice" variant="destructive" class="mb-5">
+                <AlertCircle class="h-4 w-4" />
+                <AlertTitle> Fehler! </AlertTitle>
+                <AlertDescription>
+                    {{ error }}
+                </AlertDescription>
+            </Alert>
+
             <div v-if="!selectedDevice">
                 <Heading title="Messwerte betrachten" description="Wähle bitte ein Gerät unten im Menü aus, um die Messwerte zu betrachten" />
             </div>

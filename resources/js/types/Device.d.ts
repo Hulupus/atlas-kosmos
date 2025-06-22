@@ -8,6 +8,7 @@ export interface Device {
     name: string;
     location: string | null;
     description: string | null;
+    has_dashboard: boolean;
     // Add other essential device properties if needed for client-side use
     // For example:
     // device_group_id: number;

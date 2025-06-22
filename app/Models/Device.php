@@ -50,6 +50,7 @@ class Device extends Model
         'webclient_start_url',
         'device_group_id',
         'user_id',
+        'has_dashboard'
         // 'last_callback_at' is updated programmatically.
     ];
 

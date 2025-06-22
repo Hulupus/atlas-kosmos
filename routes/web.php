@@ -18,6 +18,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/measurements', [DataviewController::class, 'databaseView'])
         ->name('measurements');
+
+    Route::get('/graphs', [DataviewController::class, 'graphView'])
+        ->name('graphs');
 });
 
 

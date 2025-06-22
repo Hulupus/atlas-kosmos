@@ -24,6 +24,8 @@ return new class extends Migration {
             $table->string('webclient_start_url')->nullable();
             $table->timestamp('last_callback_at')->nullable();
 
+            $table->boolean('has_dashboard')->default(false);
+
             $table->timestamps();
         });
     }

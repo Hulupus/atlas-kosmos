@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\DeviceGroup; // Import DeviceGroup model
+use App\Models\DeviceGroup;
 
 return new class extends Migration
 {
@@ -28,10 +28,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('devices', function (Blueprint $table) {
-            $table->string('device_group')->nullable()->after('description');
-
             $table->dropConstrainedForeignIdFor(DeviceGroup::class);
-            $table->dropColumn('device_group_id');
+
+            $table->string('device_group')->nullable()->after('description');
         });
     }
 };

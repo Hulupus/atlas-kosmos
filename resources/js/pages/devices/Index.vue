@@ -104,17 +104,19 @@ const deviceName = page.props.flash.deviceName || '';
                                 </div>
                             </div>
                         </CardContent>
-                        <CardFooter class="flex gap-3">
-                            <Link :href="device.href" class="w-3/5">
+                        <CardFooter class="flex gap-3 justify-end">
+                            <Link v-if="device.has_dashboard" :href="'/devices/' + (device.name).toLowerCase()" class="w-3/5">
                                 <Button>
                                     <Gauge class="mr-2 h-4 w-4" />
                                     Übersicht ansehen
                                 </Button>
                             </Link>
-                            <Button class="w-2/5" variant="outline">
-                                <Database class="mr-2 h-4 w-4" />
-                                Messwerte
-                            </Button>
+                            <Link class="w-2/5" :href="route('measurements', { device_id: device.id })">
+                                <Button variant="outline">
+                                    <Database class="mr-2 h-4 w-4" />
+                                    Messwerte
+                                </Button>
+                            </Link>
                         </CardFooter>
                     </Card>
                 </div>
